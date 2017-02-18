@@ -108,23 +108,30 @@
 
 (defclass assignment::AddTwoIntsResponse
   :super ros::object
-  :slots (_sum ))
+  :slots (_sum _time ))
 
 (defmethod assignment::AddTwoIntsResponse
   (:init
    (&key
     ((:sum __sum) 0)
+    ((:time __time) 0.0)
     )
    (send-super :init)
    (setq _sum (round __sum))
+   (setq _time (float __time))
    self)
   (:sum
    (&optional __sum)
    (if __sum (setq _sum __sum)) _sum)
+  (:time
+   (&optional __time)
+   (if __time (setq _time __time)) _time)
   (:serialization-length
    ()
    (+
     ;; int64 _sum
+    8
+    ;; float64 _time
     8
     ))
   (:serialize
@@ -143,6 +150,8 @@
               (write-long (if (>= _sum 0) 0 #xffffffff) s))
              (t                                         ;; integer
               (write-long _sum s)(write-long (if (>= _sum 0) 0 #xffffffff) s)))
+     ;; float64 _time
+       (sys::poke _time (send s :buffer) (send s :count) :double) (incf (stream-count s) 8)
      ;;
      (if (null strm) (get-output-stream-string s))))
   (:deserialize
@@ -159,6 +168,8 @@
                       b0)
                     ((= b1  0) (make-instance bignum :size 1 :bv (integer-vector b0)))
                     (t (make-instance bignum :size 2 :bv (integer-vector b0 (ash b1 1)))))))
+   ;; float64 _time
+     (setq _time (sys::peek buf ptr- :double)) (incf ptr- 8)
    ;;
    self)
   )
@@ -167,7 +178,7 @@
   :super ros::object
   :slots ())
 
-(setf (get assignment::AddTwoInts :md5sum-) "6a2e34150c00229791cc89ff309fff21")
+(setf (get assignment::AddTwoInts :md5sum-) "95fe1f9a1a908e906775b69d5fe39edf")
 (setf (get assignment::AddTwoInts :datatype-) "assignment/AddTwoInts")
 (setf (get assignment::AddTwoInts :request) assignment::AddTwoIntsRequest)
 (setf (get assignment::AddTwoInts :response) assignment::AddTwoIntsResponse)
@@ -175,28 +186,30 @@
 (defmethod assignment::AddTwoIntsRequest
   (:response () (instance assignment::AddTwoIntsResponse :init)))
 
-(setf (get assignment::AddTwoIntsRequest :md5sum-) "6a2e34150c00229791cc89ff309fff21")
+(setf (get assignment::AddTwoIntsRequest :md5sum-) "95fe1f9a1a908e906775b69d5fe39edf")
 (setf (get assignment::AddTwoIntsRequest :datatype-) "assignment/AddTwoIntsRequest")
 (setf (get assignment::AddTwoIntsRequest :definition-)
       "int64 a
 int64 b
 ---
 int64 sum
+float64 time
 
 ")
 
-(setf (get assignment::AddTwoIntsResponse :md5sum-) "6a2e34150c00229791cc89ff309fff21")
+(setf (get assignment::AddTwoIntsResponse :md5sum-) "95fe1f9a1a908e906775b69d5fe39edf")
 (setf (get assignment::AddTwoIntsResponse :datatype-) "assignment/AddTwoIntsResponse")
 (setf (get assignment::AddTwoIntsResponse :definition-)
       "int64 a
 int64 b
 ---
 int64 sum
+float64 time
 
 ")
 
 
 
-(provide :assignment/AddTwoInts "6a2e34150c00229791cc89ff309fff21")
+(provide :assignment/AddTwoInts "95fe1f9a1a908e906775b69d5fe39edf")
 
 

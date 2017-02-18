@@ -5,4 +5,6 @@
           B
           SUM-VAL
           SUM
+          TIME-VAL
+          TIME
 ))

@@ -40,7 +40,7 @@ template<>
 struct MD5Sum< ::assignment::AddTwoInts > {
   static const char* value()
   {
-    return "6a2e34150c00229791cc89ff309fff21";
+    return "95fe1f9a1a908e906775b69d5fe39edf";
   }
 
   static const char* value(const ::assignment::AddTwoInts&) { return value(); }

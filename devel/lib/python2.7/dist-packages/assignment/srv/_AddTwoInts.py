@@ -121,14 +121,15 @@ import struct
 
 
 class AddTwoIntsResponse(genpy.Message):
-  _md5sum = "b88405221c77b1878a3cbbfff53428d7"
+  _md5sum = "f94c039fa857a4596a4abfc9a95f79f1"
   _type = "assignment/AddTwoIntsResponse"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """int64 sum
+float64 time
 
 """
-  __slots__ = ['sum']
-  _slot_types = ['int64']
+  __slots__ = ['sum','time']
+  _slot_types = ['int64','float64']
 
   def __init__(self, *args, **kwds):
     """
@@ -138,7 +139,7 @@ class AddTwoIntsResponse(genpy.Message):
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       sum
+       sum,time
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -149,8 +150,11 @@ class AddTwoIntsResponse(genpy.Message):
       #message fields cannot be None, assign default values for those that are
       if self.sum is None:
         self.sum = 0
+      if self.time is None:
+        self.time = 0.
     else:
       self.sum = 0
+      self.time = 0.
 
   def _get_types(self):
     """
@@ -164,7 +168,8 @@ class AddTwoIntsResponse(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      buff.write(_get_struct_q().pack(self.sum))
+      _x = self
+      buff.write(_get_struct_qd().pack(_x.sum, _x.time))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -175,9 +180,10 @@ class AddTwoIntsResponse(genpy.Message):
     """
     try:
       end = 0
+      _x = self
       start = end
-      end += 8
-      (self.sum,) = _get_struct_q().unpack(str[start:end])
+      end += 16
+      (_x.sum, _x.time,) = _get_struct_qd().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -190,7 +196,8 @@ class AddTwoIntsResponse(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      buff.write(_get_struct_q().pack(self.sum))
+      _x = self
+      buff.write(_get_struct_qd().pack(_x.sum, _x.time))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -202,9 +209,10 @@ class AddTwoIntsResponse(genpy.Message):
     """
     try:
       end = 0
+      _x = self
       start = end
-      end += 8
-      (self.sum,) = _get_struct_q().unpack(str[start:end])
+      end += 16
+      (_x.sum, _x.time,) = _get_struct_qd().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -213,14 +221,14 @@ _struct_I = genpy.struct_I
 def _get_struct_I():
     global _struct_I
     return _struct_I
-_struct_q = None
-def _get_struct_q():
-    global _struct_q
-    if _struct_q is None:
-        _struct_q = struct.Struct("<q")
-    return _struct_q
+_struct_qd = None
+def _get_struct_qd():
+    global _struct_qd
+    if _struct_qd is None:
+        _struct_qd = struct.Struct("<qd")
+    return _struct_qd
 class AddTwoInts(object):
   _type          = 'assignment/AddTwoInts'
-  _md5sum = '6a2e34150c00229791cc89ff309fff21'
+  _md5sum = '95fe1f9a1a908e906775b69d5fe39edf'
   _request_class  = AddTwoIntsRequest
   _response_class = AddTwoIntsResponse

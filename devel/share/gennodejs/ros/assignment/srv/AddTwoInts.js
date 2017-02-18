@@ -72,12 +72,15 @@ class AddTwoIntsRequest {
 class AddTwoIntsResponse {
   constructor() {
     this.sum = 0;
+    this.time = 0.0;
   }
 
   static serialize(obj, bufferInfo) {
     // Serializes a message object of type AddTwoIntsResponse
     // Serialize message field [sum]
     bufferInfo = _serializer.int64(obj.sum, bufferInfo);
+    // Serialize message field [time]
+    bufferInfo = _serializer.float64(obj.time, bufferInfo);
     return bufferInfo;
   }
 
@@ -89,6 +92,10 @@ class AddTwoIntsResponse {
     // Deserialize message field [sum]
     tmp = _deserializer.int64(buffer);
     data.sum = tmp.data;
+    buffer = tmp.buffer;
+    // Deserialize message field [time]
+    tmp = _deserializer.float64(buffer);
+    data.time = tmp.data;
     buffer = tmp.buffer;
     return {
       data: data,
@@ -103,13 +110,14 @@ class AddTwoIntsResponse {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'b88405221c77b1878a3cbbfff53428d7';
+    return 'f94c039fa857a4596a4abfc9a95f79f1';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     int64 sum
+    float64 time
     
     
     `;
