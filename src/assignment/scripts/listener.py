@@ -40,19 +40,34 @@ import rospy
 import string
 import re
 from std_msgs.msg import String
+import matplotlib.pyplot as plt
+import numpy as np
+import plotly.plotly as py
+i=0
+result3 =[]
 
 def callback(data):
     
-   
+    global i 
     result1 = re.sub('[^0-9]','',data.data)
     result2 = re.sub('[^a-z]','',data.data)
     time_stamp = rospy.get_time()
     #print float(result1)
  
-    result3    = (float(result1)) -  time_stamp*1000000000
-   
+    result3.insert(i,time_stamp*1000000000 - (float(result1)))
+    result4 = result3[i]
    # result = ''.join([i for i in data  if not i.isdigit()])    
-    rospy.loginfo('Person is wearing %s shirt @ %s',result2,result3)
+    rospy.loginfo('Person is wearing %s shirt @ %s,%d',result2,result4,i)
+    i=i+1
+
+    if(i>300):
+    	
+    	plt.hist(result3)
+    	plt.title("Time difference")
+    	plt.xlabel("10^-18 seconds")
+    	plt.ylabel("Frequency")
+    	plt.show()
+    	i=0
     
 
 def listener():
